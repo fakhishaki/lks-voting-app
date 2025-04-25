@@ -52,7 +52,7 @@ jobs:
       run: echo "Build Success"
 
   master:
-    name: Example Pull Image on master
+    name: Pull Image on master
     runs-on: node1
     steps:
       - name: Update runner's docker Version, as worker module requires it
@@ -85,7 +85,7 @@ jobs:
           docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
 
   node1:
-    name: Example Pull Image on node1
+    name: Pull Image on node1
     runs-on: node1
     steps:
       - name: Update runner's docker Version, as worker module requires it
@@ -118,7 +118,7 @@ jobs:
           docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG   
 
   node2:
-    name: Example Pull Image on node2
+    name: Pull Image on node2
     runs-on: node2
     steps:
       - name: Update runner's docker Version, as worker module requires it
