@@ -6,7 +6,6 @@ on:
       - "dev"
     paths:
       - .github/workflows/lks-dev-pipeline.yaml
-      - "worker/**"
 
 env:
   AWS_REGION: us-east-1                 
@@ -45,7 +44,7 @@ jobs:
       id: build-image-vote
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        VOTE_IMAGE_TAG: worker-${{ env.ENV }}-latest
+        VOTE_IMAGE_TAG: vote-dev-latest
       run: |
         sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
         sudo docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
@@ -55,7 +54,7 @@ jobs:
       id: build-image-result
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        RESULT_IMAGE_TAG: worker-${{ env.ENV }}-latest
+        RESULT_IMAGE_TAG: result-dev-latest
       run: |
         sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
         sudo docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
@@ -65,7 +64,7 @@ jobs:
       id: build-image-worker
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        WORKER_IMAGE_TAG: worker-${{ env.ENV }}-latest
+        WORKER_IMAGE_TAG: worker-dev-latest
       run: |
         sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
         sudo docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
