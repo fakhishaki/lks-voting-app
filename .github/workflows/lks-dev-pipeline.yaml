@@ -69,7 +69,7 @@ jobs:
       run: |
         sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
         sudo docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
-        echo "::set-output name=worker_image::$ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG"
+        sudo echo "::set-output name=worker_image::$ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG"
 
   master:
     name: Pull Image on master
@@ -118,5 +118,5 @@ jobs:
           sudo docker stack ls
           sudo docker stack rm stackdemo
           sudo sleep 30
-          sudo docker stack deploy --compose-file docker-stack.yml stackdemo
+          sudo docker stack deploy --compose-file docker-stack.yml vote
 
