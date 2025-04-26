@@ -46,7 +46,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         VOTE_IMAGE_TAG: vote-dev-latest
       run: |
-        sudo /lks-voting-app/vote
+        sudo cd /lks-voting-app/vote
         sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$VOTE_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
         sudo docker push $ECR_REGISTRY/$ECR_REPOSITORY:$VOTE_IMAGE_TAG
         sudo echo "vote_image=$ECR_REGISTRY/$ECR_REPOSITORY:$VOTE_IMAGE_TAG" >> $GITHUB_OUTPUT
