@@ -46,8 +46,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         VOTE_IMAGE_TAG: vote-dev-latest
       run: |
-        cd /lks-voting-app/vote
-        sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$VOTE_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
+        sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$VOTE_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f vote/Dockerfile ./worker
         sudo docker push $ECR_REGISTRY/$ECR_REPOSITORY:$VOTE_IMAGE_TAG
         sudo echo "vote_image=$ECR_REGISTRY/$ECR_REPOSITORY:$VOTE_IMAGE_TAG" >> $GITHUB_OUTPUT
 
@@ -57,7 +56,6 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         RESULT_IMAGE_TAG: result-dev-latest
       run: |
-        cd /lks-voting-app/result
         sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$RESULT_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
         sudo docker push $ECR_REGISTRY/$ECR_REPOSITORY:$RESULT_IMAGE_TAG
         sudo echo "result_image=$ECR_REGISTRY/$ECR_REPOSITORY:$RESULT_IMAGE_TAG" >> $GITHUB_OUTPUT
@@ -68,7 +66,6 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         WORKER_IMAGE_TAG: worker-dev-latest
       run: |
-        cd /lks-voting-app/worker
         sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
         sudo docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
         sudo echo "worker_image=$ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG" >> $GITHUB_OUTPUT
