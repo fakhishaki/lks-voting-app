@@ -47,9 +47,9 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         VOTE_IMAGE_TAG: worker-${{ env.ENV }}-latest
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
-        echo "::set-output name=worker_image::$ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG"
+        sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
+        sudo docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
+        sudo echo "::set-output name=worker_image::$ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG"
 
     - name: Build, tag, and push image result to Amazon ECR
       id: build-image-result
@@ -57,8 +57,8 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         RESULT_IMAGE_TAG: worker-${{ env.ENV }}-latest
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
+        sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
+        sudo docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
         echo "::set-output name=worker_image::$ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG"
 
     - name: Build, tag, and push image worker to Amazon ECR
@@ -67,8 +67,8 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         WORKER_IMAGE_TAG: worker-${{ env.ENV }}-latest
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
+        sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
+        sudo docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
         echo "::set-output name=worker_image::$ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG"
 
   master:
@@ -102,7 +102,7 @@ jobs:
           WORKER_IMAGE_TAG: worker-${{ env.ENV }}-latest
         # Build docker images for vote module and push it to ECR so that it can be deployed to EKS
         run: |
-          docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
+          sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
 
   deploy:  
     name: Deploy Application into docker swarm
@@ -113,10 +113,10 @@ jobs:
 
       - name: Deploy application images to Docker Swarm
         run: |
-          docker node ls
-          docker service ls
-          docker stack ls
-          docker stack rm stackdemo
-          sleep 30
-          docker stack deploy --compose-file docker-stack.yml stackdemo
+          sudo docker node ls
+          sudo docker service ls
+          sudo docker stack ls
+          sudo docker stack rm stackdemo
+          sudo sleep 30
+          sudo docker stack deploy --compose-file docker-stack.yml stackdemo
 
