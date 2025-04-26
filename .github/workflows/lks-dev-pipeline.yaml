@@ -1,4 +1,4 @@
-name: lks-dev-pipe
+name: lks-dev-pipeline
 
 on:
   push:
@@ -46,9 +46,9 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         VOTE_IMAGE_TAG: vote-dev-latest
       run: |
-        sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$VOTE_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f vote/Dockerfile ./worker
+        sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$VOTE_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
         sudo docker push $ECR_REGISTRY/$ECR_REPOSITORY:$VOTE_IMAGE_TAG
-        sudo echo "vote_image=$ECR_REGISTRY/$ECR_REPOSITORY:$VOTE_IMAGE_TAG" >> $GITHUB_OUTPUT
+        sudo echo "::set-output name=worker_image::$ECR_REGISTRY/$ECR_REPOSITORY:$VOTE_IMAGE_TAG"
 
     - name: Build, tag, and push image result to Amazon ECR
       id: build-image-result
@@ -58,7 +58,7 @@ jobs:
       run: |
         sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$RESULT_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
         sudo docker push $ECR_REGISTRY/$ECR_REPOSITORY:$RESULT_IMAGE_TAG
-        sudo echo "result_image=$ECR_REGISTRY/$ECR_REPOSITORY:$RESULT_IMAGE_TAG" >> $GITHUB_OUTPUT
+        echo "::set-output name=worker_image::$ECR_REGISTRY/$ECR_REPOSITORY:$RESULT_IMAGE_TAG"
 
     - name: Build, tag, and push image worker to Amazon ECR
       id: build-image-worker
@@ -68,14 +68,11 @@ jobs:
       run: |
         sudo docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
         sudo docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
-        sudo echo "worker_image=$ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG" >> $GITHUB_OUTPUT
+        sudo echo "::set-output name=worker_image::$ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG"
 
   master:
     name: Pull Image on master
-    runs-on:
-      - self-hosted
-      - linux
-      - master
+    runs-on: master
     steps:
       - name: Update runner's docker Version, as worker module requires it
         run: |
@@ -108,10 +105,7 @@ jobs:
 
   deploy:  
     name: Deploy Application into docker swarm
-    runs-on:
-      - self-hosted
-      - linux
-      - master
+    runs-on: master
     steps:
       - name: Checkout
         uses: actions/checkout@v3
