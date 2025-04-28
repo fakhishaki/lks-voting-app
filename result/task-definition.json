@@ -1,13 +1,13 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:943983345107:task-definition/ws-td-result:1",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:056665234171:task-definition/lks-td-result:5",
     "containerDefinitions": [
         {
-            "name": "result-container",
-            "image": "943983345107.dkr.ecr.us-east-1.amazonaws.com/ws-apps",
+            "name": "lks-result-container",
+            "image": "056665234171.dkr.ecr.us-east-1.amazonaws.com/lks-voting-image:result-prod-latest",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "80",
+                    "name": "lks-result-container-80-tcp",
                     "containerPort": 80,
                     "hostPort": 80,
                     "protocol": "tcp",
@@ -23,7 +23,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/ws-td-result",
+                    "awslogs-group": "/ecs/lks-td-result",
                     "mode": "non-blocking",
                     "awslogs-create-group": "true",
                     "max-buffer-size": "25m",
@@ -35,11 +35,10 @@
             "systemControls": []
         }
     ],
-    "family": "ws-td-result",
-    "taskRoleArn": "arn:aws:iam::943983345107:role/LabRole",
-    "executionRoleArn": "arn:aws:iam::943983345107:role/LabRole",
+    "family": "lks-td-result",
+    "executionRoleArn": "arn:aws:iam::056665234171:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 1,
+    "revision": 5,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -57,9 +56,6 @@
         },
         {
             "name": "com.amazonaws.ecs.capability.docker-remote-api.1.28"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.task-iam-role"
         },
         {
             "name": "ecs.capability.execution-role-ecr-pull"
@@ -83,12 +79,18 @@
         "FARGATE"
     ],
     "cpu": "1024",
-    "memory": "2048",
+    "memory": "3072",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2024-10-28T08:09:48.659Z",
-    "registeredBy": "arn:aws:sts::943983345107:assumed-role/voclabs/user3536706=Test_Student",
-    "tags": []
+    "registeredAt": "2025-04-28T13:01:28.392Z",
+    "registeredBy": "arn:aws:iam::056665234171:root",
+    "enableFaultInjection": false,
+    "tags": [
+        {
+            "key": "Name",
+            "value": "lks-td-result"
+        }
+    ]
 }
