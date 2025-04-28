@@ -152,5 +152,15 @@ jobs:
         service: ${{ env.ECS_SERVICE_WORKER }}
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true
-
+        
+  notif:
+    name: Sent Notification
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:    
+    - name: Publish Message To SNS Subscribers
+      env:
+        TOPIC_ARN: ${{ secrets.AWS_SNS_ARN }}
+      run: aws sns publish --topic-arn $TOPIC_ARN --subject "Hello, from Kepualauan Riau!" --message "New Version The Voting App from Kepualuan Riau is Released !!"
+       
   
