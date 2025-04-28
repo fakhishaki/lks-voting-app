@@ -1,9 +1,9 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:943983345107:task-definition/ws-td-worker:1",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:056665234171:task-definition/lks-td-worker:6",
     "containerDefinitions": [
         {
-            "name": "worker-container",
-            "image": "943983345107.dkr.ecr.us-east-1.amazonaws.com/ws-apps",
+            "name": "lks-worker-container",
+            "image": "056665234171.dkr.ecr.us-east-1.amazonaws.com/lks-voting-image:worker-prod-latest",
             "cpu": 0,
             "portMappings": [],
             "essential": true,
@@ -15,7 +15,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/ws-td-worker",
+                    "awslogs-group": "/ecs/lks-td-worker",
                     "mode": "non-blocking",
                     "awslogs-create-group": "true",
                     "max-buffer-size": "25m",
@@ -27,11 +27,10 @@
             "systemControls": []
         }
     ],
-    "family": "ws-td-worker",
-    "taskRoleArn": "arn:aws:iam::943983345107:role/LabRole",
-    "executionRoleArn": "arn:aws:iam::943983345107:role/LabRole",
+    "family": "lks-td-worker",
+    "executionRoleArn": "arn:aws:iam::056665234171:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 1,
+    "revision": 6,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -49,9 +48,6 @@
         },
         {
             "name": "com.amazonaws.ecs.capability.docker-remote-api.1.28"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.task-iam-role"
         },
         {
             "name": "ecs.capability.execution-role-ecr-pull"
@@ -75,12 +71,18 @@
         "FARGATE"
     ],
     "cpu": "1024",
-    "memory": "2048",
+    "memory": "3072",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2024-10-28T08:10:25.447Z",
-    "registeredBy": "arn:aws:sts::943983345107:assumed-role/voclabs/user3536706=Test_Student",
-    "tags": []
+    "registeredAt": "2025-04-28T13:02:25.716Z",
+    "registeredBy": "arn:aws:iam::056665234171:root",
+    "enableFaultInjection": false,
+    "tags": [
+        {
+            "key": "Name",
+            "value": "lks-td-worker"
+        }
+    ]
 }
