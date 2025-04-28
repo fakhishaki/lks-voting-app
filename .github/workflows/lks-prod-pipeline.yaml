@@ -12,7 +12,7 @@ on:
 
 env:
   AWS_REGION: us-east-1                 
-  ECR_REPOSITORY: lsk-voting-image
+  ECR_REPOSITORY: lks-voting-image
   ECS_SERVICE_VOTE: lks-vote-service
   ECS_SERVICE_RESULT: lks-result-service
   ECS_SERVICE_WORKER: lks-worker-service          
