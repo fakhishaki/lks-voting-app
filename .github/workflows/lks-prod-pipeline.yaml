@@ -156,6 +156,7 @@ jobs:
   notif:
     name: Sent Notification
     runs-on: ubuntu-latest
+    needs: deploy
     environment: Production
     
     steps:    
