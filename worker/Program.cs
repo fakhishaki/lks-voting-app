@@ -46,7 +46,7 @@ namespace Worker
                         if (!pgsql.State.Equals(System.Data.ConnectionState.Open))
                         {
                             Console.WriteLine("Reconnecting DB");
-                            pgsql = OpenDbConnection("Server=lks-rds1.cluster-cdkawxeimoq9.us-east-1.rds.amazonaws.com;Username=lksadmin;Password=LKSNCC2024;");
+                            pgsql = OpenDbConnection("Host=lks-rds1.cluster-cdkawxeimoq9.us-east-1.rds.amazonaws.com;Username=lksadmin;Password=LKSNCC2024;");
                         }
                         else
                         { // Normal +1 vote requested
@@ -80,12 +80,12 @@ namespace Worker
                 }
                 catch (SocketException)
                 {
-                    Console.Error.WriteLine("Waiting for db: " + ex.Message);
+                    Console.Error.WriteLine("Waiting for db");
                     Thread.Sleep(1000);
                 }
                 catch (DbException)
                 {
-                    Console.Error.WriteLine("Waiting for db: " + ex.Message);
+                    Console.Error.WriteLine("Waiting for db");
                     Thread.Sleep(1000);
                 }
             }
