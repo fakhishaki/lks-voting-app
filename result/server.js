@@ -18,7 +18,7 @@ io.on('connection', function (socket) {
 });
 
 var pool = new Pool({
-  connectionString: 'lks-rds.cluster-cdkawxeimoq9.us-east-1.rds.amazonaws.com'
+  connectionString: 'lks-rds1.cluster-cdkawxeimoq9.us-east-1.rds.amazonaws.com'
 });
 
 async.retry(
