@@ -79,6 +79,7 @@ jobs:
   master:
     name: Pull Image on master
     runs-on: master
+    needs: build
     steps:
       - name: Update runner's docker Version, as worker module requires it
         run: |
@@ -117,6 +118,7 @@ jobs:
   deploy:  
     name: Deploy Application into docker swarm
     runs-on: master
+    needs: master
     steps:
       - name: Checkout
         uses: actions/checkout@v3
