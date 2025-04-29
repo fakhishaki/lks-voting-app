@@ -167,7 +167,7 @@ jobs:
         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
         aws-region: ${{ env.AWS_REGION }}
         
-    - name: Publish Message To SNS Subscribers
+    - name: Publish Message To SNS Subscriber
       env:
         TOPIC_ARN: ${{ secrets.AWS_SNS_ARN }}
       run: aws sns publish --topic-arn $TOPIC_ARN --subject "Hello, from Kepualauan Riau!" --message "New Version The Voting App from Kepualuan Riau is Released !!"
