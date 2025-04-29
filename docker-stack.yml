@@ -31,7 +31,7 @@ services:
       replicas: 3
 
   result:
-    image: 056665234171.dkr.ecr.us-east-1.amazonaws.com/lks-voting-image:result-dev-latest
+    image: 056665234171.dkr.ecr.us-east-1.amazonaws.com/lks-voting-image:result-dev-lates
     ports:
       - 5001:80
     networks:
